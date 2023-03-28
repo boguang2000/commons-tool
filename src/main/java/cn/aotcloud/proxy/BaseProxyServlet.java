@@ -21,7 +21,6 @@ import org.apache.http.message.BasicHttpRequest;
 import org.apache.http.message.HeaderGroup;
 import org.apache.http.util.EntityUtils;
 
-import ch.qos.logback.classic.Logger;
 import cn.aotcloud.utils.HttpServletUtil;
 
 import javax.servlet.ServletException;
