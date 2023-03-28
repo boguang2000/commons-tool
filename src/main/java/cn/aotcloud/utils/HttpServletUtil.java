@@ -74,6 +74,10 @@ public class HttpServletUtil {
 		response.setContentType(type);
 	}
 	
+	public static void setContentLength(HttpServletResponse response, int len) {
+		response.setContentLength(len);
+	}
+	
 	public static void setCharacterEncoding(HttpServletResponse response, String charset) {
 		response.setCharacterEncoding(charset);
 	}
