@@ -19,10 +19,12 @@ public class FileUtil {
 	}
 	
 	public static File newFile(final String parent, final String child) {
+		mkdirs(parent);
 		return new File(parent, child);
 	}
 	
 	public static File newFile(final File parent, final String child) {
+		mkdirs(parent);
 		return new File(parent, child);
 	}
 
@@ -35,7 +37,10 @@ public class FileUtil {
 	}
 	
 	public static boolean mkdirs(final File file) {
-		return file.mkdirs();
+		if(!FileUtil.exists(file)) {
+			return file.mkdirs();
+    	}
+		return false;
 	}
 	
 	public static boolean mkdirs(final String pathname) {

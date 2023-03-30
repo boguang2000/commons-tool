@@ -1,5 +1,6 @@
 package cn.aotcloud.utils;
 
+import org.apache.commons.io.FilenameUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -47,7 +48,7 @@ public class CompressUtil {
     public static String compressToZip(File sourceFile, String targetPath) {
         validateTargetPath(targetPath);
         //输入文件路径包含文件名
-        File targetFile = new File(String.format("%s%s%s.%s", targetPath, File.separator, sourceFile.getName(), "zip"));
+        File targetFile = new File(String.format("%s%s%s.%s", targetPath, File.separator, FilenameUtils.normalize(sourceFile.getName()), "zip"));
 
         //1.使用try-with-resource优雅关闭流
         //2.使用CRC32进行文件校验
