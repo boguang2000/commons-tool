@@ -9,11 +9,6 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 import org.springframework.util.Assert;
 
-/**
- * 
- * @author bgu
- *
- */
 public class RedisCacheStorage<T> implements CacheStorage<T> {
 
 	private final RedisOperations<String, T> redisOperations;

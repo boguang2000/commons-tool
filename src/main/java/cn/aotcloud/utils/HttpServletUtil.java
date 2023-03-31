@@ -18,6 +18,8 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpRequest;
 
 import cn.aotcloud.openapi.filter.BodyReaderHttpServletRequestWrapper;
 import eu.bitwalker.useragentutils.Browser;
@@ -84,6 +86,22 @@ public class HttpServletUtil {
 	
 	public static void addHeader(HttpServletResponse response, String name, String value) {
 		response.addHeader(name, value);
+	}
+	
+	public static void addHeader(HttpRequest request, String headerName, String headerValue) {
+		request.getHeaders().add(headerName, headerValue);
+	}
+	
+	public static void setHeader(HttpHeaders httpHeaders, String headerName, String headerValue) {
+		if(httpHeaders != null) {
+			httpHeaders.set(headerName, headerValue);
+		}
+	}
+	
+	public static void putAllHeader(HttpHeaders httpHeaders, HttpHeaders httpHeaders_) {
+		if(httpHeaders != null) {
+			httpHeaders.putAll(httpHeaders_);
+		}
 	}
 	
 	public static void setHeader(HttpServletResponse response, String name, String value) {

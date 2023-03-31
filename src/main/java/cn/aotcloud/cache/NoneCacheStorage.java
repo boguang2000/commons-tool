@@ -2,11 +2,6 @@ package cn.aotcloud.cache;
 
 import java.util.Set;
 
-/**
- * 
- * @author bgu
- *
- */
 public class NoneCacheStorage<T> implements CacheStorage<T> {
 
 	@Override

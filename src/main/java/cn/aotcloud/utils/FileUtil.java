@@ -8,11 +8,12 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
 
+import org.apache.commons.io.FileUtils;
 import org.apache.commons.io.IOUtils;
 import org.springframework.util.FileCopyUtils;
 import org.springframework.util.StreamUtils;
 
-public class FileUtil {
+public class FileUtil extends FileUtils {
 
 	public static File newFile(final String pathname) {
 		return new File(pathname);
@@ -26,14 +27,6 @@ public class FileUtil {
 	public static File newFile(final File parent, final String child) {
 		mkdirs(parent);
 		return new File(parent, child);
-	}
-
-	public static boolean deleteQuietly(final File file) {
-		return org.apache.commons.io.FileUtils.deleteQuietly(file);
-	}
-	
-	public static boolean deleteQuietly(final String pathname) {
-		return org.apache.commons.io.FileUtils.deleteQuietly(new File(pathname));
 	}
 	
 	public static boolean mkdirs(final File file) {
@@ -120,18 +113,18 @@ public class FileUtil {
 	}
 	
 	public static String getPath(final String parent, final String child) {
-		return new File(parent, child).getPath();
+		return FileUtil.newFile(parent, child).getPath();
 	}
 	
 	public static String readFileContent(String pathname) throws IOException {
 		StringBuilder sb = new StringBuilder();
-		List<String> list = org.apache.commons.io.FileUtils.readLines(new File(pathname), "UTF-8");
+		List<String> list = org.apache.commons.io.FileUtils.readLines(FileUtil.newFile(pathname), "UTF-8");
 		list.forEach((line) -> {sb.append(line).append(System.getProperty("line.separator"));});
 		return sb.toString();
 	}
 	
 	public static void writeFileContent(String pathname, String content) throws IOException {
-		org.apache.commons.io.FileUtils.write(new File(pathname), content, "UTF-8");
+		org.apache.commons.io.FileUtils.write(FileUtil.newFile(pathname), content, "UTF-8");
 	}
 	
 	@SuppressWarnings("deprecation")
@@ -149,10 +142,6 @@ public class FileUtil {
 	
 	public static int copy(InputStream in, String outPathname) throws IOException {
 		return FileCopyUtils.copy(in, new FileOutputStream(outPathname));
-	}
-	
-	public static void copyInputStreamToFile(InputStream in, File file) throws IOException {
-		org.apache.commons.io.FileUtils.copyInputStreamToFile(in, file);
 	}
 	
 	public static String getFilenameFromPath(String path) {

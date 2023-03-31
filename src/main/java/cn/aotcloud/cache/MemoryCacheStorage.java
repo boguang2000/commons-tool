@@ -6,11 +6,6 @@ import java.util.concurrent.TimeUnit;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
 
-/**
- * 
- * @author bgu
- *
- */
 public class MemoryCacheStorage<T> implements CacheStorage<T> {
 
 	private final Cache<String, T> cache; 
