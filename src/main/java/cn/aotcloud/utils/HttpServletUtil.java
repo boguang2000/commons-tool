@@ -8,6 +8,7 @@ import java.io.OutputStream;
 import java.io.PrintWriter;
 import java.net.URLEncoder;
 import java.util.Enumeration;
+import java.util.HashMap;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -20,6 +21,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpRequest;
+import org.springframework.util.MultiValueMap;
 
 import cn.aotcloud.openapi.filter.BodyReaderHttpServletRequestWrapper;
 import eu.bitwalker.useragentutils.Browser;
@@ -119,6 +121,18 @@ public class HttpServletUtil {
 	public static void setStatus(HttpServletResponse response, int sc) {
 		response.setStatus(sc);
 	}
+	
+	public static Map<String, String[]> transferQueryParams(MultiValueMap<String, String> queryParams) {
+    	Map<String, String[]> parameterMap = new HashMap<>();
+    	if (queryParams != null) {
+            queryParams.keySet().forEach(key -> parameterMap.put(key,
+                    new String[]{String.valueOf(queryParams.get(key))
+                            .replace("[", "")
+                            .replace("]", "")}));
+        }
+    	
+    	return parameterMap;
+    }
 	
 	public static PrintWriter getPrintWriter(HttpServletResponse response) throws IOException {
 		return response.getWriter();
