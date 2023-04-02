@@ -1,18 +1,26 @@
 package cn.aotcloud.utils;
 
+import org.apache.commons.compress.archivers.zip.ZipArchiveEntry;
+import org.apache.commons.compress.archivers.zip.ZipArchiveInputStream;
 import org.apache.commons.io.FilenameUtils;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.OutputStream;
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
+import java.util.Properties;
 import java.util.zip.CRC32;
 import java.util.zip.CheckedOutputStream;
 import java.util.zip.ZipEntry;
@@ -235,4 +243,91 @@ public class CompressUtil {
 
         return targetFile;
     }
+    
+    public static void compressNoParentZip(File sourceFile, ZipOutputStream zos, String name) throws IOException {
+        byte[] buf = new byte[1024];
+        if(sourceFile.isFile()){
+            // 压缩单个文件，压缩后文件名为当前文件名
+            zos.putNextEntry(new ZipEntry(name));
+            // copy文件到zip输出流中
+            int len;
+            FileInputStream in = new FileInputStream(sourceFile);
+            while ((len = in.read(buf)) != -1){
+                zos.write(buf, 0, len);
+            }
+            zos.closeEntry();
+            in.close();
+        } else {
+            File[] listFiles = sourceFile.listFiles();
+            if(listFiles == null || listFiles.length == 0){
+                // 空文件夹的处理(创建一个空ZipEntry)
+                zos.putNextEntry(new ZipEntry(""));
+                zos.closeEntry();
+            } else {
+                // 递归压缩文件夹下的文件
+                for (File file : listFiles) {
+                	compressNoParentZip(file, zos, file.getName());
+                }
+            }
+        }
+    }
+    
+    /**
+     * 解压 zip 文件
+     * @throws Exception
+     */
+	@SuppressWarnings("deprecation")
+	public static List<String> unZip(InputStream input, String fileId, String scanDir) throws IOException {
+    	int BUFFER_SIZE = 1024;
+        File destFile = FileUtil.newFile(scanDir, FilenameUtils.normalize(fileId));
+        if(FileUtil.exists(destFile)) {
+        	destFile.delete();
+        }
+        FileUtil.mkdirs(destFile);
+        
+        ZipArchiveInputStream is = null;
+        BufferedInputStream bis = null;
+        List<String> fileNames = new ArrayList<String>();
+
+        try {
+        	bis = new BufferedInputStream(input, BUFFER_SIZE);
+        	is = isWindows() ? new ZipArchiveInputStream(bis, "GBK") :  new ZipArchiveInputStream(bis);
+            //is = new ZipArchiveInputStream(bis, "UFT-8");
+            ZipArchiveEntry entry = null;
+            while ((entry = is.getNextZipEntry()) != null) {
+                fileNames.add(entry.getName());
+                if (entry.isDirectory()) {
+                    File directory = FileUtil.newFile(destFile, FilenameUtils.normalize(entry.getName()));
+                    FileUtil.mkdirs(directory);
+                } else {
+                	FileOutputStream fos = null;
+                    OutputStream os = null;
+                    try {
+                    	File file = FileUtil.newFile(destFile, FilenameUtils.normalize(entry.getName()));
+                    	FileUtil.mkdirs(file.getParentFile());
+                    	fos = new FileOutputStream(file);
+                        os = new BufferedOutputStream(fos, BUFFER_SIZE);
+                        IOUtils.copy(is, os);
+                    } finally {
+                        IOUtils.closeQuietly(os);
+                        IOUtils.closeQuietly(fos);
+                    }
+                }
+            }
+        } catch(IOException e) {
+            logger.error(e.getMessage(), e);
+            throw e;
+        } finally {
+        	IOUtils.closeQuietly(bis);
+        	IOUtils.closeQuietly(is);
+        }
+
+        return fileNames;
+    }
+	
+    private static boolean isWindows() {
+		Properties prop = System.getProperties();
+		String osName = prop.getProperty("os.name");
+		return StringUtils.startsWithIgnoreCase(osName, "win");
+	}
 }
