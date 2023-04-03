@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>cn.aotcloud</groupId>
 	<artifactId>commons-tool</artifactId>
-	<version>1.4.2</version>
+	<version>1.4.3</version>
 	<packaging>jar</packaging>
     <name>commons-tool</name>
     <description>cotcloud commons-tool</description>

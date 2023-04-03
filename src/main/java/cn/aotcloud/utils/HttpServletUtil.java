@@ -58,6 +58,10 @@ public class HttpServletUtil {
 		return request.getHeader(name);
 	}
 	
+	public static String getQueryString(HttpServletRequest request) {
+		return request.getQueryString();
+	}
+	
 	public static String getParameter(HttpServletRequest request, String name) {
 		return request.getParameter(name);
 	}

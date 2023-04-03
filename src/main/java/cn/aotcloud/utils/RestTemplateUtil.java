@@ -24,9 +24,12 @@ import org.apache.http.impl.client.HttpClients;
 import org.apache.http.impl.conn.PoolingHttpClientConnectionManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
+import org.springframework.lang.Nullable;
+import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
 public class RestTemplateUtil {
@@ -38,7 +41,7 @@ public class RestTemplateUtil {
 	public PoolingHttpClientConnectionManager getConnManager() {
 		return connManager;
 	}
-
+	
 	public RestTemplate getSSLRestTemplate(int connectTimeout, int readTimeout, int connectionRequestTimeout, int maxConnTotal, int maxConnPerRoute) {
 		//SSLContext sslContext = SSLContexts.createSystemDefault();
     	SSLContext sslContext = getSSLContext();
@@ -147,5 +150,11 @@ public class RestTemplateUtil {
             	connManager.closeIdleConnections(5, TimeUnit.SECONDS);
             }
         }, 5, 5, TimeUnit.SECONDS);
+	}
+	
+	public static <T> ResponseEntity<T> postForEntity(RestTemplate restTemplate, String url, @Nullable Object request,
+			Class<T> responseType, Object... uriVariables) throws RestClientException {
+
+		return restTemplate.postForEntity(url, request, responseType, uriVariables);
 	}
 }

@@ -2,6 +2,8 @@ package cn.aotcloud.utils;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FilenameFilter;
 import java.io.IOException;
@@ -114,6 +116,10 @@ public class FileUtil extends FileUtils {
 	
 	public static String getPath(final String parent, final String child) {
 		return FileUtil.newFile(parent, child).getPath();
+	}
+	
+	public static FileInputStream newFileInputStream(File file) throws FileNotFoundException {
+		return new FileInputStream(file);
 	}
 	
 	public static String readFileContent(String pathname) throws IOException {
