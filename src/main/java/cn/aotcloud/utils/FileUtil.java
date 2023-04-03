@@ -122,6 +122,10 @@ public class FileUtil extends FileUtils {
 		return new FileInputStream(file);
 	}
 	
+	public static FileOutputStream newFileOutputStream(File file) throws FileNotFoundException {
+		return new FileOutputStream(file);
+	}
+	
 	public static String readFileContent(String pathname) throws IOException {
 		StringBuilder sb = new StringBuilder();
 		List<String> list = org.apache.commons.io.FileUtils.readLines(FileUtil.newFile(pathname), "UTF-8");

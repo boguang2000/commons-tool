@@ -62,7 +62,7 @@ public class CompressUtil {
         //2.使用CRC32进行文件校验
         //logger.debug("start to compress file to zip, file name:{}", sourceFile.getName());
         //long start = System.currentTimeMillis();
-        try (FileOutputStream fileOut = new FileOutputStream(targetFile);
+        try (FileOutputStream fileOut = FileUtil.newFileOutputStream(targetFile);
     		CheckedOutputStream cos = new CheckedOutputStream(fileOut, new CRC32());
     		ZipOutputStream zipOut = new ZipOutputStream(cos)) {
             String baseDir = "";
@@ -120,7 +120,7 @@ public class CompressUtil {
             return;
         }
 
-        try (BufferedInputStream bis = new BufferedInputStream(new FileInputStream(sourceFile))) {
+        try (BufferedInputStream bis = new BufferedInputStream(FileUtil.newFileInputStream(sourceFile))) {
             ZipEntry entry = new ZipEntry(basePath + sourceFile.getName());
             zipOut.putNextEntry(entry);
             int count;
@@ -146,7 +146,7 @@ public class CompressUtil {
 
         // 将压缩文件内容写入到这个文件中
         try (InputStream is = zipFile.getInputStream(entry);
-        	FileOutputStream fos = new FileOutputStream(tempFile)) {
+        	FileOutputStream fos = FileUtil.newFileOutputStream(tempFile)) {
             int len;
             byte[] buf = new byte[BUFFER_SIZE];
             while ((len = is.read(buf)) != -1) {
@@ -197,7 +197,7 @@ public class CompressUtil {
 
                     // 将压缩文件内容写入到这个文件中
                     try (InputStream is = zipFile.getInputStream(entry);
-                         FileOutputStream fos = new FileOutputStream(tempFile)) {
+                         FileOutputStream fos = FileUtil.newFileOutputStream(tempFile)) {
                         int len;
                         byte[] buf = new byte[BUFFER_SIZE];
                         while ((len = is.read(buf)) != -1) {
@@ -251,7 +251,7 @@ public class CompressUtil {
             zos.putNextEntry(new ZipEntry(name));
             // copy文件到zip输出流中
             int len;
-            FileInputStream in = new FileInputStream(sourceFile);
+            FileInputStream in = FileUtil.newFileInputStream(sourceFile);
             while ((len = in.read(buf)) != -1){
                 zos.write(buf, 0, len);
             }
@@ -305,7 +305,7 @@ public class CompressUtil {
                     try {
                     	File file = FileUtil.newFile(destFile, FilenameUtils.normalize(entry.getName()));
                     	FileUtil.mkdirs(file.getParentFile());
-                    	fos = new FileOutputStream(file);
+                    	fos = FileUtil.newFileOutputStream(file);
                         os = new BufferedOutputStream(fos, BUFFER_SIZE);
                         IOUtils.copy(is, os);
                     } finally {
