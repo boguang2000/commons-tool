@@ -54,6 +54,19 @@ public class HttpServletUtil {
 		return request.getHeaders(name);
 	}
 	
+	public static Map<String, String> getHeaderMap(HttpServletRequest request) {
+		Enumeration<?> headerNames = HttpServletUtil.getHeaderNames(request);
+        Map<String, String> headerMap = new HashMap<>();
+        if(headerNames != null) {
+	        while (headerNames.hasMoreElements()) {
+	            String key = (String) headerNames.nextElement();
+	            String value = HttpServletUtil.getHeader(request, key);
+	            headerMap.put(key,value);
+	        }
+        }
+        return headerMap;
+	}
+	
 	public static String getHeader(HttpServletRequest request, String name) {
 		return request.getHeader(name);
 	}

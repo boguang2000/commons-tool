@@ -2,7 +2,7 @@ package cn.aotcloud.entity;
 
 import java.io.Serializable;
 
-public class Application implements Serializable {
+public class AppQueryParam implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 
@@ -20,14 +20,6 @@ public class Application implements Serializable {
 		this.secret = secret;
 	}
 
-	public String getSt() {
-		return secret;
-	}
-
-	public void setSt(String st) {
-		this.secret = st;
-	}
-	
 	public String getAgentSecret() {
 		return agentSecret;
 	}
@@ -36,14 +28,6 @@ public class Application implements Serializable {
 		this.agentSecret = agentSecret;
 	}
 
-	public String getAgentSt() {
-		return agentSecret;
-	}
-
-	public void setAgentSt(String agentSt) {
-		this.agentSecret = agentSt;
-	}
-	
 	public String getAdmins() {
 		return admins;
 	}
