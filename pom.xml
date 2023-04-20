@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>cn.aotcloud</groupId>
 	<artifactId>commons-tool</artifactId>
-	<version>1.4.6</version>
+	<version>1.4.7</version>
 	<packaging>jar</packaging>
     <name>commons-tool</name>
     <description>cotcloud commons-tool</description>
@@ -111,11 +111,6 @@
 			<groupId>com.alibaba</groupId>
 			<artifactId>fastjson</artifactId>
 			<version>1.2.83</version>
-		</dependency>
-		<dependency>
-			<groupId>org.reflections</groupId>
-		    <artifactId>reflections</artifactId>
-		    <version>0.9.11</version>
 		</dependency>
 		<dependency>
 			<groupId>net.lingala.zip4j</groupId>
