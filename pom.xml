@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 	<groupId>cn.aotcloud</groupId>
 	<artifactId>commons-tool</artifactId>
-	<version>1.4.8</version>
+	<version>1.4.9</version>
 	<packaging>jar</packaging>
     <name>commons-tool</name>
     <description>cotcloud commons-tool</description>
@@ -61,6 +61,12 @@
 			<groupId>com.google.guava</groupId>
 		    <artifactId>guava</artifactId>
 		    <version>31.1-jre</version>
+		</dependency>
+		<dependency>
+			<groupId>com.google.code.findbugs</groupId>
+			<artifactId>jsr305</artifactId>
+			<version>2.0.2</version>
+			<scope>compile</scope>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
