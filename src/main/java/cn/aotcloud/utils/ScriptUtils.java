@@ -18,7 +18,6 @@ import org.springframework.jdbc.datasource.init.ScriptException;
 import org.springframework.jdbc.datasource.init.ScriptParseException;
 import org.springframework.jdbc.datasource.init.ScriptStatementFailedException;
 import org.springframework.jdbc.datasource.init.UncategorizedScriptException;
-import org.springframework.lang.Nullable;
 import org.springframework.util.Assert;
 import org.springframework.util.StringUtils;
 
@@ -170,7 +169,7 @@ public abstract class ScriptUtils {
 	 * @see org.springframework.jdbc.datasource.DataSourceUtils#releaseConnection
 	 */
 	public static void executeSqlScript(Connection connection, EncodedResource resource, boolean continueOnError,
-			boolean ignoreFailedDrops, String commentPrefix, @Nullable String separator,
+			boolean ignoreFailedDrops, String commentPrefix, String separator,
 			String blockCommentStartDelimiter, String blockCommentEndDelimiter) throws ScriptException {
 
 		executeSqlScript(connection, resource, continueOnError, ignoreFailedDrops,
@@ -210,7 +209,7 @@ public abstract class ScriptUtils {
 	 * @see org.springframework.jdbc.datasource.DataSourceUtils#releaseConnection
 	 */
 	public static void executeSqlScript(Connection connection, EncodedResource resource, boolean continueOnError,
-			boolean ignoreFailedDrops, String[] commentPrefixes, @Nullable String separator,
+			boolean ignoreFailedDrops, String[] commentPrefixes, String separator,
 			String blockCommentStartDelimiter, String blockCommentEndDelimiter) throws ScriptException {
 
 		try {
@@ -310,7 +309,7 @@ public abstract class ScriptUtils {
 	 * @return a {@code String} containing the script lines
 	 * @throws IOException in case of I/O errors
 	 */
-	static String readScript(EncodedResource resource, @Nullable String separator,
+	static String readScript(EncodedResource resource, String separator,
 			String[] commentPrefixes, String blockCommentEndDelimiter) throws IOException {
 
 		try (LineNumberReader lnr = new LineNumberReader(resource.getReader())) {
@@ -337,8 +336,8 @@ public abstract class ScriptUtils {
 	 * This is an internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static String readScript(LineNumberReader lineNumberReader, @Nullable String commentPrefix,
-			@Nullable String separator, @Nullable String blockCommentEndDelimiter) throws IOException {
+	public static String readScript(LineNumberReader lineNumberReader, String commentPrefix,
+			String separator, String blockCommentEndDelimiter) throws IOException {
 
 		String[] commentPrefixes = (commentPrefix != null) ? new String[] { commentPrefix } : null;
 		return readScript(lineNumberReader, commentPrefixes, separator, blockCommentEndDelimiter);
@@ -364,8 +363,8 @@ public abstract class ScriptUtils {
 	 * This is an internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static String readScript(LineNumberReader lineNumberReader, @Nullable String[] commentPrefixes,
-			@Nullable String separator, @Nullable String blockCommentEndDelimiter) throws IOException {
+	public static String readScript(LineNumberReader lineNumberReader, String[] commentPrefixes,
+			String separator, String blockCommentEndDelimiter) throws IOException {
 
 		String currentStatement = lineNumberReader.readLine();
 		StringBuilder scriptBuilder = new StringBuilder();
@@ -383,7 +382,7 @@ public abstract class ScriptUtils {
 		return scriptBuilder.toString();
 	}
 
-	private static void appendSeparatorToScriptIfNecessary(StringBuilder scriptBuilder, @Nullable String separator) {
+	private static void appendSeparatorToScriptIfNecessary(StringBuilder scriptBuilder, String separator) {
 		if (separator == null) {
 			return;
 		}
@@ -440,7 +439,7 @@ public abstract class ScriptUtils {
 	 * (typically <code>"*&#47;"</code>)
 	 * @since 5.2.16
 	 */
-	private static boolean containsStatementSeparator(@Nullable EncodedResource resource, String script,
+	private static boolean containsStatementSeparator(EncodedResource resource, String script,
 			String separator, String[] commentPrefixes, String blockCommentStartDelimiter,
 			String blockCommentEndDelimiter) throws ScriptException {
 
@@ -580,7 +579,7 @@ public abstract class ScriptUtils {
 	 * This is an internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static void splitSqlScript(@Nullable EncodedResource resource, String script,
+	public static void splitSqlScript(EncodedResource resource, String script,
 			String separator, String commentPrefix, String blockCommentStartDelimiter,
 			String blockCommentEndDelimiter, List<String> statements) throws ScriptException {
 
@@ -617,7 +616,7 @@ public abstract class ScriptUtils {
 	 * This is an internal API and will likely be removed in Spring Framework 6.0.
 	 */
 	@Deprecated
-	public static void splitSqlScript(@Nullable EncodedResource resource, String script,
+	public static void splitSqlScript(EncodedResource resource, String script,
 			String separator, String[] commentPrefixes, String blockCommentStartDelimiter,
 			String blockCommentEndDelimiter, List<String> statements) throws ScriptException {
 

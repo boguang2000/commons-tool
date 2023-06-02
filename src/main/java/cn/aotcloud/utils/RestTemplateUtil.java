@@ -28,7 +28,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.http.client.HttpComponentsClientHttpRequestFactory;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.StringHttpMessageConverter;
-import org.springframework.lang.Nullable;
 import org.springframework.web.client.RestClientException;
 import org.springframework.web.client.RestTemplate;
 
@@ -152,7 +151,7 @@ public class RestTemplateUtil {
         }, 5, 5, TimeUnit.SECONDS);
 	}
 	
-	public static <T> ResponseEntity<T> postForEntity(RestTemplate restTemplate, String url, @Nullable Object request,
+	public static <T> ResponseEntity<T> postForEntity(RestTemplate restTemplate, String url, Object request,
 			Class<T> responseType, Object... uriVariables) throws RestClientException {
 
 		return restTemplate.postForEntity(url, request, responseType, uriVariables);
