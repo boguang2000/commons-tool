@@ -8,7 +8,7 @@
 	<version>1.4.9</version>
 	<packaging>jar</packaging>
     <name>commons-tool</name>
-    <description>cotcloud commons-tool</description>
+    <description>aotcloud commons-tool</description>
     <url>https://github.com/boguang2000/commons-tool</url>
     
 	<properties>
