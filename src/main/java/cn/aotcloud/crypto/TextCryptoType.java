@@ -1,7 +1,7 @@
 package cn.aotcloud.crypto;
 
 /**
- * 应用中心支持的文本字符串加密类型
+ * 支持的文本字符串加密类型
  * 
  * @author xkxu
  */
